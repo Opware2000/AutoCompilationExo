@@ -1,6 +1,7 @@
 import os
 import re
 import subprocess
+import shutil
 
 # Configuration
 input_file = 'test.tex'
@@ -89,6 +90,19 @@ def insert_qr_codes(input_file, corrections):
                     file.write(
                         r'\qrcode{' + github_page_url + base_filename + '}' + '\n')
                     file.write(r'\end{center}' + '\n')
+
+# Fonction pour commiter les fichiers copiés et faire un push
+
+
+def commit_and_push_changes():
+    os.chdir(github_repo_dir)  # Changer de répertoire vers le dépôt
+    subprocess.run(['git', 'add', '.'])  # Ajouter tous les nouveaux fichiers
+    # Committer les changements
+    subprocess.run(
+        ['git', 'commit', '-m', 'Ajout des fichiers de correction avec les QR codes.'])
+    subprocess.run(['git', 'push'])  # Pousser les modifications
+
+
 # Main
 if __name__ == '__main__':
     corrections = extract_corrections(input_file)
@@ -102,6 +116,9 @@ if __name__ == '__main__':
 
     # Compiler le fichier d'énoncé après l'insertion des QR codes
     compile_statement(input_file)
+
+    # Commiter et pousser les fichiers
+    commit_and_push_changes()
 
     # Nettoyer les fichiers temporaires
     for filename, _ in corrections:
