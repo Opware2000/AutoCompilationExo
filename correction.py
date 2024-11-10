@@ -98,11 +98,11 @@ def copy_files(corrections):
             print(f"Avertissement: Le fichier {pdf_filename} n'existe pas.")
 
 
-def insert_qr_codes(input_file, corrections):
+def insert_qr_codes(input_file, output_file, corrections):
     with open(input_file, 'r') as file:
         content = file.readlines()
 
-    with open(input_file, 'w') as file:
+    with open(output_file, 'w') as file:
         correction_count = 0
         for line in content:
             file.write(line)
@@ -147,8 +147,7 @@ if __name__ == '__main__':
     copy_files(corrections)
 
     # Insérer les QR codes dans le fichier d'énoncé
-    insert_qr_codes(input_file, corrections)
-
+    insert_qr_codes(input_file, output_file, corrections)
     # Compiler le fichier d'énoncé après l'insertion des QR codes
     compile_statement(input_file)
 
