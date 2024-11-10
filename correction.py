@@ -25,11 +25,12 @@ def extract_corrections(input_file):
     for i, exercise in enumerate(exercises):
         # Trouver l'environnement Correction dans l'Exercice
         correction = re.findall(
-            r'\\begin\{Correction\}\{(.*?)\}(.*?)\\end\{Correction\}', exercise, re.DOTALL)
+            r'\\begin\{Correction\}\[(.*?)\](.*?)\\end\{Correction\}', exercise, re.DOTALL)
         if correction:
             filename = f'correction_exercice{i + 1}.tex'
             # Contenu de la correction
             correction_content = correction[0][1].strip()
+            correction_header = correction[0][0].strip()
 
             # Créer un fichier .tex pour la correction
             with open(filename, 'w') as corr_file:
@@ -38,7 +39,7 @@ def extract_corrections(input_file):
                 corr_file.write(r'\begin{document}' + '\n')
                 corr_file.write(r'\begin{minipage}{\textwidth}' + '\n')
                 corr_file.write(
-                    r'\textbf{Correction:}\newline ' + correction_content.replace('\n', r'\\') + '\n')
+                    r'\textbf{Correction:}' + correction_header + r'\newline ' + correction_content.replace('\n', r'\\') + '\n')
                 corr_file.write(r'\end{minipage}' + '\n')
                 corr_file.write(r'\end{document}' + '\n')
 
