@@ -76,8 +76,8 @@ def compile_statement(input_file):
 
 
 def copy_files(corrections):
-    for filename, _ in corrections:
-        pdf_filename = filename.replace('.tex', '.pdf')
+    for _, pdf_name in corrections:
+        pdf_filename = pdf_name
         if os.path.exists(pdf_filename):
             # Copie le fichier PDF vers le dossier GitHub Pages
             shutil.copy(pdf_filename, github_repo_dir)
@@ -91,16 +91,18 @@ def insert_qr_codes(input_file, corrections):
         content = file.readlines()
 
     with open(input_file, 'w') as file:
-        for line in content:
+        correction_map = {f'correction_exercice{
+            i + 1}.pdf': f'correction_exercice{i + 1}.pdf' for i in range(len(corrections))}
+        for i, line in enumerate(content):
             file.write(line)
             if r'\begin{Exercice}' in line:
-                for filename, _ in corrections:
-                    pdf_filename = filename.replace('.tex', '.pdf')
-                    base_filename = os.path.basename(pdf_filename)
-                    # Ajouter le QR code pour chaque PDF
+                # Obtenir le fichier PDF de la correction correspondante pour l'exercice
+                if i < len(corrections):
+                    # Utiliser le nom de la PDF de la correction
+                    pdf_filename = corrections[i][1]
                     file.write(r'\begin{center}' + '\n')
                     file.write(
-                        r'\qrcode{' + github_page_url + base_filename + '}' + '\n')
+                        r'\qrcode{' + github_page_url + pdf_filename + '}' + '\n')
                     file.write(r'\end{center}' + '\n')
 
 # Fonction pour commiter les fichiers copiés et faire un push
