@@ -24,7 +24,8 @@ github_page_url = 'https://opware2000.github.io/TestGithubPageLatex/'
 
 def extract_corrections(input_file):
     corrections = []
-
+    # Nom de base du fichier d'énoncé sans extension
+    base_name = os.path.splitext(input_file)[0]
     with open(input_file, 'r') as file:
         content = file.read()
 
