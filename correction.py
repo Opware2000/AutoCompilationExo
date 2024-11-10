@@ -2,6 +2,7 @@ import os
 import re
 import subprocess
 import shutil
+import argparse  # Importation du module argparse
 
 # Configuration
 input_file = 'test.tex'
@@ -27,7 +28,7 @@ def extract_corrections(input_file):
         correction = re.findall(
             r'\\begin\{Correction\}\[(.*?)\](.*?)\\end\{Correction\}', exercise, re.DOTALL)
         if correction:
-            filename = f'correction_exercice{i + 1}.tex'
+            filename = f'{base_name}_correction_exercice{i + 1}.tex'
             # Contenu de la correction
             correction_content = correction[0][1].strip()
             correction_header = correction[0][0].strip()
@@ -38,13 +39,14 @@ def extract_corrections(input_file):
                 corr_file.write(r'\usepackage{amsmath}' + '\n')
                 corr_file.write(r'\begin{document}' + '\n')
                 corr_file.write(r'\begin{minipage}{\textwidth}' + '\n')
-                corr_file.write(
-                    r'\textbf{Correction:}' + correction_header + r'\newline ' + correction_content.replace('\n', r'\\') + '\n')
+                corr_file.write(r'\textbf{Correction:}' + correction_header +
+                                r'\newline ' + correction_content.replace('\n', r'\\') + '\n')
                 corr_file.write(r'\end{minipage}' + '\n')
                 corr_file.write(r'\end{document}' + '\n')
 
             # Stocker le nom du PDF
-            corrections.append((filename, f'correction_exercice{i + 1}.pdf'))
+            corrections.append(
+                (filename, f'{base_name}_correction_exercice{i + 1}.pdf'))
 
     return corrections
 
@@ -100,7 +102,7 @@ def insert_qr_codes(input_file, corrections):
                 if correction_count < len(corrections):
                     # Le nom du PDF correspondant
                     pdf_filename = corrections[correction_count][1]
-                    file.write(r'\begin{center}' + '\n')
+                    file.write(r'\begin{center} Correction\\' + '\n')
                     file.write(
                         r'\qrcode{' + github_page_url + pdf_filename + '}' + '\n')
                     file.write(r'\end{center}' + '\n')
@@ -137,9 +139,6 @@ if __name__ == '__main__':
     # Compiler le fichier d'énoncé après l'insertion des QR codes
     compile_statement(input_file)
 
-    # Commiter et pousser les fichiers
-    commit_and_push_changes()
-
     # Nettoyer les fichiers temporaires
     for filename, _ in corrections:
         aux_file = filename.replace('.tex', '.aux')
@@ -159,4 +158,6 @@ if __name__ == '__main__':
     if os.path.exists(log_file):
         os.remove(log_file)
 
+    # Commiter et pousser les fichiers
+    commit_and_push_changes()
     print('Compilation réussie !')
