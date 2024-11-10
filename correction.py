@@ -176,13 +176,19 @@ if __name__ == '__main__':
             os.remove(filename)
 
     # Nettoyer aussi le fichier d'énoncé
-    aux_file = input_file.replace('.tex', '.aux')
-    log_file = input_file.replace('.tex', '.log')
+    aux_file = output_file.replace('.tex', '.aux')
+    log_file = output_file.replace('.tex', '.log')
     if os.path.exists(aux_file):
         os.remove(aux_file)
     if os.path.exists(log_file):
         os.remove(log_file)
-
+    # Nettoyer aussi le fichier prof
+    aux_file = prof_file.replace('.tex', '.aux')
+    log_file = prof_file.replace('.tex', '.log')
+    if os.path.exists(aux_file):
+        os.remove(aux_file)
+    if os.path.exists(log_file):
+        os.remove(log_file)
     # Commiter et pousser les fichiers
     commit_and_push_changes()
     print('Compilation réussie !')
