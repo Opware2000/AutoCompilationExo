@@ -70,8 +70,8 @@ def compile_corrections(corrections):
                                   stderr=subprocess.STDOUT)
             print(f"Compilation réussie pour: {filename}")
         except subprocess.CalledProcessError as e:
-            print(f"Erreur lors de la compilation de {
-                  filename}: {e.output.decode()}")
+            print("Erreur lors de la compilation de"
+                  + filename + ':' + e.output.decode())
 
 # Fonction pour compiler le fichier d'énoncé
 
@@ -82,8 +82,8 @@ def compile_statement(input_file):
                               stderr=subprocess.STDOUT)
         print(f"Compilation réussie pour: {input_file}")
     except subprocess.CalledProcessError as e:
-        print(f"Erreur lors de la compilation de {
-              input_file}: {e.output.decode()}")
+        print("Erreur lors de la compilation de"
+              + input_file + ':' + e.output.decode())
 
 # Fonction pour copier les fichiers PDF
 
