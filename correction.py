@@ -30,8 +30,6 @@ def extract_corrections(input_file):
             filename = f'correction_exercice{i + 1}.tex'
             # Contenu de la correction
             correction_content = correction[0][1].strip()
-            # Nom du fichier de correction
-            correction_header = correction[0][0]
 
             # Créer un fichier .tex pour la correction
             with open(filename, 'w') as corr_file:
@@ -44,7 +42,8 @@ def extract_corrections(input_file):
                 corr_file.write(r'\end{minipage}' + '\n')
                 corr_file.write(r'\end{document}' + '\n')
 
-            corrections.append((filename, correction_header))
+            # Stocker le nom du PDF
+            corrections.append((filename, f'correction_exercice{i + 1}.pdf'))
 
     return corrections
 
