@@ -117,6 +117,15 @@ def insert_qr_codes(input_file, output_file, corrections):
                     file.write(r'\end{center}' + '\n')
                     correction_count += 1  # Incrémenter pour passer à la prochaine correction
 
+
+def prof_version(input_file, prof_file):
+    with open(input_file, 'r') as file:
+        content = file.readlines()
+    with open(prof_file, 'w') as file:
+        for line in content:
+            file.write(line.replace('\Proffalse', '\Proftrue'))
+
+
 # Fonction pour commiter les fichiers copiés et faire un push
 
 
@@ -148,9 +157,11 @@ if __name__ == '__main__':
 
     # Insérer les QR codes dans le fichier d'énoncé
     insert_qr_codes(input_file, output_file, corrections)
+    # Générer la version prof
+    prof_version(input_file, prof_file)
     # Compiler le fichier d'énoncé après l'insertion des QR codes
-    compile_statement(input_file)
-
+    compile_statement(output_file)
+    compile_statement(prof_file)
     # Nettoyer les fichiers temporaires
     for filename, _ in corrections:
         aux_file = filename.replace('.tex', '.aux')
