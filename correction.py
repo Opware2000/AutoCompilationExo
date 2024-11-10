@@ -52,16 +52,26 @@ def extract_corrections(input_file):
 
 
 def compile_corrections(corrections):
-    for filename, header in corrections:
-        subprocess.run(['pdflatex', filename])
-        print(f"Compiled {filename} to {header}")
+    for filename, content in corrections:
+        try:
+            subprocess.check_call(['pdflatex', filename],
+                                  stderr=subprocess.STDOUT)
+            print(f"Compilation réussie pour: {filename}")
+        except subprocess.CalledProcessError as e:
+            print(f"Erreur lors de la compilation de {
+                  filename}: {e.output.decode()}")
 
 # Fonction pour compiler le fichier d'énoncé
 
 
 def compile_statement(input_file):
-    subprocess.run(['pdflatex', input_file])
-    print(f"Compiled {input_file}")
+    try:
+        subprocess.check_call(['pdflatex', input_file],
+                              stderr=subprocess.STDOUT)
+        print(f"Compilation réussie pour: {input_file}")
+    except subprocess.CalledProcessError as e:
+        print(f"Erreur lors de la compilation de {
+              input_file}: {e.output.decode()}")
 
 # Fonction pour copier les fichiers PDF
 
@@ -72,6 +82,9 @@ def copy_files(corrections):
         if os.path.exists(pdf_filename):
             # Copie le fichier PDF vers le dossier GitHub Pages
             shutil.copy(pdf_filename, github_repo_dir)
+            print(f"Fichier copié vers GitHub Pages: {pdf_filename}")
+        else:
+            print(f"Avertissement: Le fichier {pdf_filename} n'existe pas.")
 
 
 def insert_qr_codes(input_file, corrections):
@@ -96,11 +109,16 @@ def insert_qr_codes(input_file, corrections):
 
 def commit_and_push_changes():
     os.chdir(github_repo_dir)  # Changer de répertoire vers le dépôt
-    subprocess.run(['git', 'add', '.'])  # Ajouter tous les nouveaux fichiers
-    # Committer les changements
-    subprocess.run(
-        ['git', 'commit', '-m', 'Ajout des fichiers de correction avec les QR codes.'])
-    subprocess.run(['git', 'push'])  # Pousser les modifications
+    try:
+        # Ajouter tous les nouveaux fichiers
+        subprocess.check_call(['git', 'add', '.'])
+        # Commiter les changements
+        subprocess.check_call(
+            ['git', 'commit', '-m', 'Ajout des fichiers de correction avec les QR codes.'])
+        subprocess.check_call(['git', 'push'])  # Pousser les modifications
+        print("Changements poussés vers le dépôt Git.")
+    except subprocess.CalledProcessError as e:
+        print(f"Erreur lors de l'opération Git: {e.output.decode()}")
 
 
 # Main
