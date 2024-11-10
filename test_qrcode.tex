@@ -1,0 +1,59 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage{qrcode} % Pour générer des QR codes
+\usepackage{amsmath} % Pour les formules mathématiques
+\usepackage{graphicx} % Pour inclure des graphiques (si nécessaire)
+\usepackage{xcolor}  % Pour utiliser des couleurs
+\usepackage{verbatim} % Pour utiliser \comment et \endcomment
+
+% Version Prof
+\newif\ifProf
+\Proffalse % Mettre \Proftrue pour activer les corrections
+
+% Environnement pour les exercices
+\newenvironment{Exercice}[1][]{
+    \section*{Exercice : #1}
+}{}
+
+% Environnement pour les corrections conditionnelles
+\ifProf
+    % Si Prof est True, on affiche le contenu en bleu
+    \newenvironment{Correction}[1][]{
+        \subsection*{\color{blue}Correction : #1}
+        \color{blue} % Définit la couleur bleue pour tout le contenu de l'environnement
+    }{}
+\else
+    % Si Prof est False, on définit un environnement qui ignore complètement le contenu
+    \newenvironment{Correction}[1][]{\comment}{\endcomment}
+\fi
+
+
+\begin{document}
+
+% Exemple d'exercice
+\begin{Exercice}[Calcul de la dérivée d'une fonction]
+\begin{center} Correction\\\vspace*{2mm}
+\qrcode{https://opware2000.github.io/TestGithubPageLatex/test_correction_exercice1.pdf}
+\end{center}
+    % Données de l'exercice
+    Calculer la dérivée de la fonction $f(x) = 2x^3 + 4x^2 - 1$ en fonction de $x$.
+    % Correction de l'exercice
+    \begin{Correction}[Dérivation de $f(x) = 2x^3 + 4x^2 - 1$]
+        La dérivée de $f(x) = 2x^3 + 4x^2 - 1$ est $f'(x) = 6x^2 + 8x$.
+    \end{Correction}
+\end{Exercice}
+
+
+\begin{Exercice}[Calcul de la dérivée d'une fonction]
+\begin{center} Correction\\\vspace*{2mm}
+\qrcode{https://opware2000.github.io/TestGithubPageLatex/test_correction_exercice2.pdf}
+\end{center}
+    % Données de l'exercice
+    Calculer la dérivée de la fonction $f(x) = 12x^3 + 4x^2 - 1$ en fonction de $x$.
+    % Contenu de la correction
+    \begin{Correction}[Dérivation de $f(x) = 12x^3 + 4x^2 - 1$]
+
+        La dérivée de $f(x) = 12x^3 + 4x^2 - 1$ est $f'(x) = 36x^2 + 8x$.
+    \end{Correction}
+\end{Exercice}
+
+\end{document}
