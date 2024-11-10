@@ -91,19 +91,19 @@ def insert_qr_codes(input_file, corrections):
         content = file.readlines()
 
     with open(input_file, 'w') as file:
-        correction_map = {f'correction_exercice{
-            i + 1}.pdf': f'correction_exercice{i + 1}.pdf' for i in range(len(corrections))}
-        for i, line in enumerate(content):
+        correction_count = 0
+        for line in content:
             file.write(line)
             if r'\begin{Exercice}' in line:
-                # Obtenir le fichier PDF de la correction correspondante pour l'exercice
-                if i < len(corrections):
-                    # Utiliser le nom de la PDF de la correction
-                    pdf_filename = corrections[i][1]
+                # Vérifiez s'il y a une correction disponible pour cet exercice
+                if correction_count < len(corrections):
+                    # Le nom du PDF correspondant
+                    pdf_filename = corrections[correction_count][1]
                     file.write(r'\begin{center}' + '\n')
                     file.write(
                         r'\qrcode{' + github_page_url + pdf_filename + '}' + '\n')
                     file.write(r'\end{center}' + '\n')
+                    correction_count += 1  # Incrémenter pour passer à la prochaine correction
 
 # Fonction pour commiter les fichiers copiés et faire un push
 
