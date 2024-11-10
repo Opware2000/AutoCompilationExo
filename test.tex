@@ -1,0 +1,45 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage{qrcode} % Pour générer des QR codes
+\usepackage{amsmath} % Pour les formules mathématiques
+\usepackage{graphicx} % Pour inclure des graphiques (si nécessaire)
+\usepackage{xcolor}  % Pour utiliser des couleurs si nécessaire
+
+% Environnement pour les exercices
+\newenvironment{Exercice}[1][]{
+    \section*{Exercice : #1}
+}{}
+
+% Environnement pour les corrections
+\newenvironment{Correction}[1]{
+    \begin{tabular}{|c|c|}
+        \hline
+    \qrcode{https://example.com/#1} &
+    \textbf{Correction} \\ \hline
+    \end{tabular}\par
+}{} 
+
+\begin{document}
+
+% Exemple d'exercice
+\begin{Exercice}[Calcul de la dérivée d'une fonction]
+    % Données de l'exercice
+    Calculer la dérivée de la fonction $f(x) = 2x^3 + 4x^2 - 1$ en fonction de $x$.
+
+    \begin{Correction}{exercice_1_correction.pdf}
+        % Contenu de la correction
+        La dérivée de $f(x) = 2x^3 + 4x^2 - 1$ est $f'(x) = 6x^2 + 8x$.
+    \end{Correction}
+\end{Exercice}
+
+
+\begin{Exercice}[Calcul de la dérivée d'une fonction]
+    % Données de l'exercice
+    Calculer la dérivée de la fonction $f(x) = 12x^3 + 4x^2 - 1$ en fonction de $x$.
+
+    \begin{Correction}{exercice_2_correction.pdf}
+        % Contenu de la correction
+        La dérivée de $f(x) = 12x^3 + 4x^2 - 1$ est $f'(x) = 36x^2 + 8x$.
+    \end{Correction}
+\end{Exercice}
+
+\end{document}
