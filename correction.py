@@ -36,7 +36,7 @@ def extract_corrections(input_file):
                 corr_file.write(r'\begin{document}' + '\n')
                 corr_file.write(r'\begin{minipage}{\textwidth}' + '\n')
                 corr_file.write(
-                    r'\textbf{Correction:}\newline ' + correction_content + '\n')
+                    r'\textbf{Correction:}\newline ' + correction_content.replace('\n', r'\\') + '\n')
                 corr_file.write(r'\end{minipage}' + '\n')
                 corr_file.write(r'\end{document}' + '\n')
 
