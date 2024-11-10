@@ -112,7 +112,8 @@ def insert_qr_codes(input_file, output_file, corrections):
                 if correction_count < len(corrections):
                     # Le nom du PDF correspondant
                     pdf_filename = corrections[correction_count][1]
-                    file.write(r'\begin{center} Correction\\' + '\n')
+                    file.write(
+                        r'\begin{center} Correction\\\vspace*{2mm}' + '\n')
                     file.write(
                         r'\qrcode{' + github_page_url + pdf_filename + '}' + '\n')
                     file.write(r'\end{center}' + '\n')
