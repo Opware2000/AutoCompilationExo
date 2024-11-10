@@ -1,7 +1,5 @@
 import os
 import re
-import subprocess
-
 # Nom du fichier d'entrée
 input_file = 'test.tex'
 
@@ -9,6 +7,11 @@ input_file = 'test.tex'
 
 
 def extract_corrections(input_file):
+    pass
+# Fonction pour compiler les corrections
+
+
+def compile_corrections(corrections):
     corrections = []
 
     with open(input_file, 'r') as file:
@@ -44,29 +47,11 @@ def extract_corrections(input_file):
 
     return corrections
 
-# Fonction pour compiler les corrections
-
-
-def compile_corrections(corrections):
-    for filename, header in corrections:
-        subprocess.run(['pdflatex', filename])
-        print(f"Compiled {filename} to {header}")
-
-# Fonction pour compiler le fichier d'énoncé
-
-
-def compile_statement(input_file):
-    subprocess.run(['pdflatex', input_file])
-    print(f"Compiled {input_file}")
-
 
 # Main
 if __name__ == '__main__':
     corrections = extract_corrections(input_file)
     compile_corrections(corrections)
-
-    # Compiler le fichier d'énoncé après avoir compilé les corrections
-    compile_statement(input_file)
 
     # Nettoyer les fichiers temporaires
     for filename, _ in corrections:
@@ -76,11 +61,3 @@ if __name__ == '__main__':
             os.remove(aux_file)
         if os.path.exists(log_file):
             os.remove(log_file)
-
-    # Nettoyer aussi le fichier d'énoncé
-    aux_file = input_file.replace('.tex', '.aux')
-    log_file = input_file.replace('.tex', '.log')
-    if os.path.exists(aux_file):
-        os.remove(aux_file)
-    if os.path.exists(log_file):
-        os.remove(log_file)
