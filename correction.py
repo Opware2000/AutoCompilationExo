@@ -138,3 +138,5 @@ if __name__ == '__main__':
         os.remove(aux_file)
     if os.path.exists(log_file):
         os.remove(log_file)
+
+    print('Compilation réussie !')
