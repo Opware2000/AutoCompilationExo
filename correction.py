@@ -72,10 +72,12 @@ if __name__ == '__main__':
     for filename, _ in corrections:
         aux_file = filename.replace('.tex', '.aux')
         log_file = filename.replace('.tex', '.log')
-        if os.path.exists(aux_file):
+        if os.path.exists(aux_file):  # Supprimer le fichier .aux
             os.remove(aux_file)
-        if os.path.exists(log_file):
+        if os.path.exists(log_file):  # Supprimer le fichier de log
             os.remove(log_file)
+        if os.path.exists(filename):  # Supprimer le fichier de correction
+            os.remove(filename)
 
     # Nettoyer aussi le fichier d'énoncé
     aux_file = input_file.replace('.tex', '.aux')
