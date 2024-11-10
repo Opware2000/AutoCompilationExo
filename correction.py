@@ -4,8 +4,17 @@ import subprocess
 import shutil
 import argparse  # Importation du module argparse
 
-# Configuration
-input_file = 'test.tex'
+# Fonction pour configurer et interpréter les arguments de la ligne de commande
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description='Générer des fichiers de corrections de LaTeX avec QR codes.')
+    parser.add_argument('input_file', type=str,
+                        help='Nom du fichier d\'énoncé en .tex')
+    return parser.parse_args()
+
+
 # Chemin vers le dépôt Git
 github_repo_dir = '/Users/nicolasogier/workspaces/Latex/GithubPage'
 github_page_url = 'https://opware2000.github.io/TestGithubPageLatex/'
@@ -127,6 +136,10 @@ def commit_and_push_changes():
 
 # Main
 if __name__ == '__main__':
+
+    input_file = parse_arguments().input_file
+    output_file = input_file.replace('.tex', '_qrcode.tex')
+    prof_file = input_file.replace('.tex', '_prof.tex')
     corrections = extract_corrections(input_file)
     compile_corrections(corrections)
 
