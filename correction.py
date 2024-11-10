@@ -145,6 +145,15 @@ def commit_and_push_changes():
         print(f"Erreur lors de l'opération Git: {e.output.decode()}")
 
 
+def clean_file(file_name):
+    aux_file = file_name.replace('.tex', '.aux')
+    log_file = file_name.replace('.tex', '.log')
+    if os.path.exists(aux_file):
+        os.remove(aux_file)
+    if os.path.exists(log_file):
+        os.remove(log_file)
+
+
 # Main
 if __name__ == '__main__':
 
@@ -166,29 +175,11 @@ if __name__ == '__main__':
     compile_statement(prof_file)
     # Nettoyer les fichiers temporaires
     for filename, _ in corrections:
-        aux_file = filename.replace('.tex', '.aux')
-        log_file = filename.replace('.tex', '.log')
-        if os.path.exists(aux_file):  # Supprimer le fichier .aux
-            os.remove(aux_file)
-        if os.path.exists(log_file):  # Supprimer le fichier de log
-            os.remove(log_file)
-        if os.path.exists(filename):  # Supprimer le fichier de correction
-            os.remove(filename)
+        clean_file(filename)
 
-    # Nettoyer aussi le fichier d'énoncé
-    aux_file = output_file.replace('.tex', '.aux')
-    log_file = output_file.replace('.tex', '.log')
-    if os.path.exists(aux_file):
-        os.remove(aux_file)
-    if os.path.exists(log_file):
-        os.remove(log_file)
-    # Nettoyer aussi le fichier prof
-    aux_file = prof_file.replace('.tex', '.aux')
-    log_file = prof_file.replace('.tex', '.log')
-    if os.path.exists(aux_file):
-        os.remove(aux_file)
-    if os.path.exists(log_file):
-        os.remove(log_file)
+    # Nettoyer les fichiers d'énoncé et prof
+    clean_file(output_file)
+    clean_file(prof_file)
     # Commiter et pousser les fichiers
     commit_and_push_changes()
     print('Compilation réussie !')
