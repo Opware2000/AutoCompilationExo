@@ -51,7 +51,7 @@ def extract_corrections(input_file):
 
 
 def compile_corrections(corrections):
-    for filename, content in corrections:
+    for filename, _ in corrections:
         try:
             subprocess.check_call(['pdflatex', filename],
                                   stderr=subprocess.STDOUT)
