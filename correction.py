@@ -2,8 +2,10 @@ import os
 import re
 import subprocess
 
-# Nom du fichier d'entrée
+# Configuration
 input_file = 'test.tex'
+# Chemin vers le dépôt Git
+github_repo_dir = '/Users/nicolasogier/workspaces/Latex/GithubPage'
 
 # Fonction pour extraire les corrections
 
@@ -59,6 +61,15 @@ def compile_statement(input_file):
     subprocess.run(['pdflatex', input_file])
     print(f"Compiled {input_file}")
 
+# Fonction pour copier les fichiers PDF
+
+
+def copy_files(corrections):
+    for filename, _ in corrections:
+        pdf_filename = filename.replace('.tex', '.pdf')
+        if os.path.exists(pdf_filename):
+            # Copie le fichier PDF vers le dossier GitHub Pages
+            shutil.copy(pdf_filename, github_repo_dir)
 
 # Main
 if __name__ == '__main__':
