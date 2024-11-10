@@ -76,7 +76,9 @@ if __name__ == '__main__':
     corrections = extract_corrections(input_file)
     compile_corrections(corrections)
 
-    # Compiler le fichier d'énoncé après avoir compilé les corrections
+    # Copier les fichiers PDF vers le répertoire GitHub Pages
+    copy_files(corrections)
+
     compile_statement(input_file)
 
     # Nettoyer les fichiers temporaires
